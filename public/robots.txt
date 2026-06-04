@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abdullah-portfolio.vercel.app/sitemap.xml
+
+# Block common bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /

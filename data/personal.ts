@@ -1,0 +1,20 @@
+export const personalInfo = {
+  name: "Muhammad Abdullah",
+  title: "AI & Full Stack Web Developer",
+  location: "144 Sector 31 D, P&T Society, Koranghi, Karachi",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=144+Sector+31+D+P%26T+Society+Koranghi+Karachi",
+  email: "alishafaqat4473@gmail.com",
+  whatsapp: "+92 3012229525",
+  whatsappUrl: "https://wa.me/923012229525",
+  github: "https://github.com/Abdullah-Shafaquat",
+  linkedin: "https://www.linkedin.com/in/muhammad-abdullah-608284302/",
+  profileImage: "/images/profile.png",
+  resumeUrl: "/resume.html",
+  bio: "AI & Full Stack Web Developer specializing in building intelligent, scalable web applications with Next.js, FastAPI, and modern AI technologies. Passionate about creating seamless user experiences powered by cutting-edge AI solutions.",
+  shortBio: "I build AI-powered web applications and modern full-stack solutions.",
+  availableForWork: true,
+  yearsOfExperience: "1+",
+  projectsCompleted: "20+",
+  happyClients: "10+",
+};
