@@ -117,7 +117,7 @@ export default function HeroSection({ onNavigate }: HeroSectionProps) {
                 </span>
                 <span className="inline-flex items-center gap-1.5 mt-2 text-xs font-medium text-violet-300 group-hover:text-violet-200">
                   <ExternalLink size={14} />
-                  Google Maps par kholo
+                  Open In Google Map
                 </span>
               </span>
             </motion.a>
