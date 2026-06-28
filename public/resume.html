@@ -1,581 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muhammad Abdullah — AI / Frontend Developer (One Page)</title>
-  <!-- Google Fonts + Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhammad Abdullah — AI / Frontend Developer</title>
 
-    body {
-      background-color: #eef2f5;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.4;
-      color: #1f2f3e;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-    .resume-wrapper {
-      max-width: 1050px;
-      width: 100%;
-      margin: 0 auto;
-    }
+    <!-- html2canvas + jsPDF (for proper PDF export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
 
-    /* PDF button – top right */
-    .pdf-button-container {
-      text-align: right;
-      margin-bottom: 0.6rem;
-    }
-    .btn-pdf {
-      background: #1e3a4d;
-      border: none;
-      padding: 0.35rem 1rem;
-      font-size: 0.7rem;
-      font-weight: 500;
-      font-family: inherit;
-      color: white;
-      border-radius: 30px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-pdf:active {
-      opacity: 0.8;
-    }
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* main resume card */
-    .resume {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      overflow: hidden;
-      width: 100%;
-    }
+        body {
+            background-color: #eef2f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #1f2f3e;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    /* two column layout */
-    .resume-grid {
-      display: grid;
-      grid-template-columns: 28% 72%;
-    }
+        .resume-wrapper {
+            max-width: 1050px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    /* ========= LEFT SIDEBAR ========= */
-    .sidebar {
-      background: #f9fbfc;
-      border-right: 1px solid #e9edf2;
-      padding: 1.2rem 1rem;
-    }
+        /* ----- PDF BUTTON (top right) ----- */
+        .pdf-button-container {
+            text-align: right;
+            margin-bottom: 0.6rem;
+        }
 
-    /* profile image – improved styling */
-    .profile-img {
-      text-align: center;
-      margin-bottom: 0.8rem;
-    }
-    .profile-img img {
-      width: 110px;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid #dce5ec;
-      background: #f0f4f7;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }
+        .btn-pdf {
+            background: #1e3a4d;
+            border: none;
+            padding: 0.35rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.15s;
+        }
+        .btn-pdf:hover {
+            opacity: 0.85;
+        }
+        .btn-pdf:active {
+            opacity: 0.7;
+        }
+        .btn-pdf i {
+            font-size: 0.75rem;
+        }
 
-    /* contact section */
-    .contact-info {
-      margin-bottom: 1.2rem;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 0.6rem;
-    }
-    .contact-item {
-      font-size: 0.7rem;
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #2c4c64;
-    }
-    .contact-item i {
-      width: 1.1rem;
-      font-size: 0.75rem;
-      color: #2c7a6e;
-    }
-    .contact-item a {
-      color: #1f5068;
-      text-decoration: none;
-      border-bottom: 1px dotted #cbdde6;
-    }
-    /* shorten address line */
-    .contact-item .short-address {
-      font-size: 0.68rem;
-    }
+        /* ----- MAIN RESUME CARD ----- */
+        .resume {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            width: 100%;
+        }
 
-    /* sidebar sections */
-    .side-section {
-      margin-bottom: 1rem;
-    }
-    .side-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #1b5e6e;
-      border-left: 3px solid #3b9e82;
-      padding-left: 0.6rem;
-      margin-bottom: 0.5rem;
-    }
-    .skill-group {
-      margin-bottom: 0.7rem;
-    }
-    .skill-group strong {
-      font-size: 0.65rem;
-      display: block;
-      font-weight: 700;
-      color: #1f5a6e;
-      margin-bottom: 0.2rem;
-    }
-    .skill-badge-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-    }
-    .skill-badge {
-      background: #eef2f5;
-      font-size: 0.64rem;
-      padding: 0.12rem 0.5rem;
-      border-radius: 12px;
-      color: #1f5068;
-      font-weight: 500;
-    }
-    .edu-item {
-      margin-bottom: 0.6rem;
-    }
-    .edu-degree {
-      font-weight: 700;
-      font-size: 0.74rem;
-    }
-    .edu-school {
-      font-size: 0.66rem;
-      color: #3c6e84;
-    }
-    .edu-date {
-      font-size: 0.6rem;
-      color: #6b8da0;
-    }
-    .lang-item {
-      display: inline-block;
-      background: #eef2f5;
-      font-size: 0.65rem;
-      padding: 0.15rem 0.6rem;
-      border-radius: 20px;
-      margin-right: 0.3rem;
-      margin-bottom: 0.2rem;
-    }
+        /* ----- TWO-COLUMN LAYOUT ----- */
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 28% 72%;
+        }
 
-    /* ========= RIGHT PANEL ========= */
-    .right-panel {
-      padding: 1.2rem 1.4rem;
-    }
-    .name-title {
-      margin-bottom: 0.6rem;
-      border-bottom: 2px solid #e9edf2;
-      padding-bottom: 0.4rem;
-    }
-    .name {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: #0f2a3b;
-    }
-    .title {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #2c7a6e;
-      background: #eef6f3;
-      display: inline-block;
-      padding: 0.15rem 0.8rem;
-      border-radius: 30px;
-      margin-top: 0.15rem;
-    }
-    .right-section {
-      margin-bottom: 0.8rem;
-    }
-    .section-header {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #0f2a3b;
-      border-bottom: 2px solid #e2edf2;
-      padding-bottom: 0.15rem;
-      margin-bottom: 0.4rem;
-    }
-    .summary {
-      font-size: 0.73rem;
-      line-height: 1.4;
-      color: #2c4a60;
-    }
-    .exp-item {
-      margin-bottom: 0.7rem;
-    }
-    .exp-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.2rem;
-      margin-bottom: 0.1rem;
-    }
-    .exp-role {
-      font-weight: 700;
-      font-size: 0.75rem;
-      color: #0a3b2f;
-    }
-    .exp-date {
-      font-size: 0.6rem;
-      color: #6c8ea0;
-    }
-    .exp-desc {
-      font-size: 0.7rem;
-      color: #2a4a60;
-      line-height: 1.35;
-      margin-left: 0.2rem;
-    }
-    .project-item {
-      margin-bottom: 0.65rem;
-      border-left: 2px solid #cde0e8;
-      padding-left: 0.7rem;
-    }
-    .project-title {
-      font-weight: 700;
-      font-size: 0.77rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-    .project-links {
-      font-size: 0.6rem;
-      font-weight: normal;
-      gap: 0.4rem;
-      display: inline-flex;
-    }
-    .project-links a {
-      color: #2c7a6e;
-      text-decoration: none;
-      border-bottom: 1px dotted #bdd9cf;
-    }
-    .project-desc {
-      font-size: 0.68rem;
-      color: #2c4a60;
-      margin: 0.15rem 0 0.15rem 0;
-      line-height: 1.3;
-    }
-    .project-tech {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-      margin-top: 0.1rem;
-    }
-    .tech-pill {
-      background: #eff4f7;
-      font-size: 0.58rem;
-      padding: 0.08rem 0.45rem;
-      border-radius: 20px;
-      color: #1f5a6e;
-    }
-    .additional-projects {
-      background: #f9fbfc;
-      padding: 0.4rem 0.7rem;
-      border-radius: 6px;
-      margin-top: 0.4rem;
-    }
-    .additional-title {
-      font-size: 0.68rem;
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-      color: #1f5a6e;
-    }
-    .additional-list {
-      font-size: 0.64rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem 0.5rem;
-    }
-    .additional-list a {
-      color: #2c7a6e;
-      text-decoration: none;
-      border-bottom: 1px dotted #cbdde6;
-    }
-    hr {
-      margin: 0.3rem 0;
-      border: none;
-      border-top: 1px solid #e2edf2;
-    }
+        /* ========= LEFT SIDEBAR ========= */
+        .sidebar {
+            background: #f9fbfc;
+            border-right: 1px solid #e9edf2;
+            padding: 1.2rem 1rem;
+        }
 
-    /* PRINT / PDF: ensure single page, no overflow */
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-        margin: 0;
-      }
-      .resume-wrapper {
-        max-width: 100%;
-        margin: 0;
-      }
-      .pdf-button-container {
-        display: none;
-      }
-      .resume {
-        border: none;
-        box-shadow: none;
-        margin: 0;
-      }
-      .sidebar {
-        background: white;
-        border-right: 1px solid #ccc;
-      }
-      .skill-badge, .tech-pill, .lang-item {
-        background: #f0f0f0;
-        border: 1px solid #ddd;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      .project-links a {
-        color: #1a1a1a;
-        border-bottom: none;
-      }
-      @page {
-        size: A4;
-        margin: 0.4cm 0.3cm;
-      }
-      .resume-grid {
-        break-inside: avoid;
-      }
-      .right-panel, .sidebar {
-        break-inside: avoid;
-      }
-      body, .resume, .right-panel, .sidebar {
-        overflow: visible;
-      }
-    }
+        /* profile image */
+        .profile-img {
+            text-align: center;
+            margin-bottom: 0.8rem;
+        }
+        .profile-img img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #dce5ec;
+            background: #f0f4f7;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
 
-    /* responsive */
-    @media (max-width: 700px) {
-      .resume-grid {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        border-right: none;
-        border-bottom: 1px solid #e2e8f0;
-      }
-      body {
-        padding: 0.5rem;
-      }
-    }
-  </style>
+        /* contact */
+        .contact-info {
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.6rem;
+        }
+        .contact-item {
+            font-size: 0.7rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2c4c64;
+        }
+        .contact-item i {
+            width: 1.1rem;
+            font-size: 0.75rem;
+            color: #2c7a6e;
+        }
+        .contact-item a {
+            color: #1f5068;
+            text-decoration: none;
+            border-bottom: 1px dotted #cbdde6;
+        }
+        .contact-item .short-address {
+            font-size: 0.68rem;
+        }
+
+        /* sidebar sections */
+        .side-section {
+            margin-bottom: 1rem;
+        }
+        .side-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #1b5e6e;
+            border-left: 3px solid #3b9e82;
+            padding-left: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+        .skill-group {
+            margin-bottom: 0.7rem;
+        }
+        .skill-group strong {
+            font-size: 0.65rem;
+            display: block;
+            font-weight: 700;
+            color: #1f5a6e;
+            margin-bottom: 0.2rem;
+        }
+        .skill-badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+        .skill-badge {
+            background: #eef2f5;
+            font-size: 0.64rem;
+            padding: 0.12rem 0.5rem;
+            border-radius: 12px;
+            color: #1f5068;
+            font-weight: 500;
+        }
+
+        /* education */
+        .edu-item {
+            margin-bottom: 0.6rem;
+        }
+        .edu-degree {
+            font-weight: 700;
+            font-size: 0.74rem;
+        }
+        .edu-school {
+            font-size: 0.66rem;
+            color: #3c6e84;
+        }
+        .edu-date {
+            font-size: 0.6rem;
+            color: #6b8da0;
+        }
+
+        /* languages */
+        .lang-item {
+            display: inline-block;
+            background: #eef2f5;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            margin-right: 0.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ========= RIGHT PANEL ========= */
+        .right-panel {
+            padding: 1.2rem 1.4rem;
+        }
+
+        .name-title {
+            margin-bottom: 0.6rem;
+            border-bottom: 2px solid #e9edf2;
+            padding-bottom: 0.4rem;
+        }
+        .name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #0f2a3b;
+        }
+        .title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #2c7a6e;
+            background: #eef6f3;
+            display: inline-block;
+            padding: 0.15rem 0.8rem;
+            border-radius: 30px;
+            margin-top: 0.15rem;
+        }
+
+        .right-section {
+            margin-bottom: 0.8rem;
+        }
+        .section-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f2a3b;
+            border-bottom: 2px solid #e2edf2;
+            padding-bottom: 0.15rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* summary */
+        .summary {
+            font-size: 0.73rem;
+            line-height: 1.4;
+            color: #2c4a60;
+        }
+
+        /* experience */
+        .exp-item {
+            margin-bottom: 0.7rem;
+        }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            margin-bottom: 0.1rem;
+        }
+        .exp-role {
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #0a3b2f;
+        }
+        .exp-date {
+            font-size: 0.6rem;
+            color: #6c8ea0;
+        }
+        .exp-desc {
+            font-size: 0.7rem;
+            color: #2a4a60;
+            line-height: 1.35;
+            margin-left: 0.2rem;
+        }
+
+        /* projects */
+        .project-item {
+            margin-bottom: 0.65rem;
+            border-left: 2px solid #cde0e8;
+            padding-left: 0.7rem;
+        }
+        .project-title {
+            font-weight: 700;
+            font-size: 0.77rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+        }
+        .project-links {
+            font-size: 0.6rem;
+            font-weight: normal;
+            gap: 0.4rem;
+            display: inline-flex;
+        }
+        .project-links a {
+            color: #2c7a6e;
+            text-decoration: none;
+            border-bottom: 1px dotted #bdd9cf;
+        }
+        .project-desc {
+            font-size: 0.68rem;
+            color: #2c4a60;
+            margin: 0.15rem 0 0.15rem 0;
+            line-height: 1.3;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.1rem;
+        }
+        .tech-pill {
+            background: #eff4f7;
+            font-size: 0.58rem;
+            padding: 0.08rem 0.45rem;
+            border-radius: 20px;
+            color: #1f5a6e;
+        }
+
+        /* additional projects */
+        .additional-projects {
+            background: #f9fbfc;
+            padding: 0.4rem 0.7rem;
+            border-radius: 6px;
+            margin-top: 0.4rem;
+        }
+        .additional-title {
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: #1f5a6e;
+        }
+        .additional-list {
+            font-size: 0.64rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.5rem;
+        }
+        .additional-list a {
+            color: #2c7a6e;
+            text-decoration: none;
+            border-bottom: 1px dotted #cbdde6;
+        }
+
+        hr {
+            margin: 0.3rem 0;
+            border: none;
+            border-top: 1px solid #e2edf2;
+        }
+
+        /* ========= PRINT / PDF ========= */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .resume-wrapper {
+                max-width: 100%;
+                margin: 0;
+            }
+            .pdf-button-container {
+                display: none !important;
+            }
+            .resume {
+                border: none;
+                box-shadow: none;
+                margin: 0;
+            }
+            .sidebar {
+                background: #fff;
+                border-right: 1px solid #ccc;
+            }
+            .skill-badge,
+            .tech-pill,
+            .lang-item {
+                background: #f0f0f0;
+                border: 1px solid #ddd;
+            }
+            a {
+                text-decoration: none;
+                color: #000;
+            }
+            .project-links a {
+                color: #1a1a1a;
+                border-bottom: none;
+            }
+            @page {
+                size: A4;
+                margin: 0.4cm 0.3cm;
+            }
+            .resume-grid {
+                break-inside: avoid;
+            }
+            .right-panel,
+            .sidebar {
+                break-inside: avoid;
+            }
+            body,
+            .resume,
+            .right-panel,
+            .sidebar {
+                overflow: visible;
+            }
+        }
+
+        /* ========= RESPONSIVE ========= */
+        @media (max-width: 700px) {
+            .resume-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            body {
+                padding: 0.5rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="resume-wrapper">
-  <!-- PDF button: top right -->
-  <div class="pdf-button-container">
-    <button class="btn-pdf" id="pdfDownloadBtn">
-      <i class="fas fa-download"></i> Download PDF (One Page)
-    </button>
-  </div>
 
-  <!-- MAIN RESUME CONTENT -->
-  <div class="resume">
-    <div class="resume-grid">
-      <!-- LEFT COLUMN -->
-      <aside class="sidebar">
-        <!-- Profile image (improved styling, nice fallback) -->
-        <div class="profile-img">
-          <img src="/images/profile2.jpeg" alt="Muhammad Abdullah" 
-               onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Cdefs%3E%3ClinearGradient id=\'g\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' stop-color=\'%233b9e82\'/%3E%3Cstop offset=\'100%25\' stop-color=\'%231e6b5c\'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle fill=\'url(%23g)\' cx=\'50\' cy=\'50\' r=\'48\'/%3E%3Ctext x=\'50\' y=\'72\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'Arial, sans-serif\'%3EMA%3C/text%3E%3C/svg%3E';">
+    <div class="resume-wrapper">
+
+        <!-- PDF button (top right) -->
+        <div class="pdf-button-container">
+            <button class="btn-pdf" id="pdfDownloadBtn">
+                <i class="fas fa-download"></i> Download PDF (One Page)
+            </button>
         </div>
 
-        <!-- CONTACT (shortened address) -->
-        <div class="contact-info">
-          <div class="side-title" style="margin-bottom:0.4rem;">Contact</div>
-          <div class="contact-item"><i class="fas fa-phone-alt"></i> +92 301 2229525</div>
-          <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:alishafaqat4473@gmail.com">alishafaqat4473@gmail.com</a></div>
-          <div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span class="short-address">Karachi, Pakistan (P&T Society)</span></div>
-          <div class="contact-item"><i class="fab fa-github"></i> <a href="https://github.com/Abdullah-Shafaquat" target="_blank">github.com/Abdullah-Shafaquat</a></div>
-          <div class="contact-item"><i class="fas fa-globe"></i> <a href="https://professional-portfolio-nine-pi.vercel.app/" target="_blank">Portfolio</a></div>
-          <div class="contact-item"><i class="fab fa-linkedin"></i> <a href="#" target="_blank">linkedin.com/in/m-abdullah</a></div>
-        </div>
+        <!-- ===== MAIN RESUME ===== -->
+        <div class="resume" id="resumeContent">
 
-        <!-- SKILLS -->
-        <div class="side-section">
-          <div class="side-title">Tech Skills</div>
-          <div class="skill-group">
-            <strong>Frontend</strong>
-            <div class="skill-badge-list">
-              <span class="skill-badge">Next.js</span><span class="skill-badge">React</span><span class="skill-badge">TypeScript</span>
-              <span class="skill-badge">JavaScript</span><span class="skill-badge">Tailwind CSS</span>
+            <div class="resume-grid">
+
+                <!-- ===== LEFT SIDEBAR ===== -->
+                <aside class="sidebar">
+
+                    <!-- Profile image -->
+                    <div class="profile-img">
+                        <img src="/images/profile2.jpeg" alt="Muhammad Abdullah"
+                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Cdefs%3E%3ClinearGradient id=\'g\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' stop-color=\'%233b9e82\'/%3E%3Cstop offset=\'100%25\' stop-color=\'%231e6b5c\'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle fill=\'url(%23g)\' cx=\'50\' cy=\'50\' r=\'48\'/%3E%3Ctext x=\'50\' y=\'72\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'Arial, sans-serif\'%3EMA%3C/text%3E%3C/svg%3E';">
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="contact-info">
+                        <div class="side-title" style="margin-bottom:0.4rem;">Contact</div>
+                        <div class="contact-item"><i class="fas fa-phone-alt"></i> +92 301 2229525</div>
+                        <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:alishafaqat4473@gmail.com">alishafaqat4473@gmail.com</a></div>
+                        <div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span class="short-address">Karachi, Pakistan (P&T Society)</span></div>
+                        <div class="contact-item"><i class="fab fa-github"></i> <a href="https://github.com/Abdullah-Shafaquat" target="_blank">github.com/Abdullah-Shafaquat</a></div>
+                        <div class="contact-item"><i class="fas fa-globe"></i> <a href="https://professional-portfolio-nine-pi.vercel.app/" target="_blank">Portfolio</a></div>
+                        <div class="contact-item"><i class="fab fa-linkedin"></i> <a href="#" target="_blank">linkedin.com/in/m-abdullah</a></div>
+                    </div>
+
+                    <!-- Tech Skills -->
+                    <div class="side-section">
+                        <div class="side-title">Tech Skills</div>
+                        <div class="skill-group">
+                            <strong>Frontend</strong>
+                            <div class="skill-badge-list">
+                                <span class="skill-badge">Next.js</span>
+                                <span class="skill-badge">React</span>
+                                <span class="skill-badge">TypeScript</span>
+                                <span class="skill-badge">JavaScript</span>
+                                <span class="skill-badge">Tailwind CSS</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <strong>Backend &amp; AI</strong>
+                            <div class="skill-badge-list">
+                                <span class="skill-badge">Python</span>
+                                <span class="skill-badge">FastAPI</span>
+                                <span class="skill-badge">REST APIs</span>
+                                <span class="skill-badge">JWT</span>
+                                <span class="skill-badge">Neon DB</span>
+                                <span class="skill-badge">AI Chatbots</span>
+                                <span class="skill-badge">Prompt Engineering</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <strong>Tools</strong>
+                            <div class="skill-badge-list">
+                                <span class="skill-badge">Git/GitHub</span>
+                                <span class="skill-badge">Vercel</span>
+                                <span class="skill-badge">VS Code</span>
+                                <span class="skill-badge">Streamlit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education (unchanged) -->
+                    <div class="side-section">
+                        <div class="side-title">Education</div>
+                        <div class="edu-item">
+                            <div class="edu-degree">Diploma in Agentic AI</div>
+                            <div class="edu-school">GIAIC University</div>
+                            <div class="edu-date">2023 – present</div>
+                        </div>
+                        <div class="edu-item">
+                            <div class="edu-degree">Matric (Computer Science)</div>
+                            <div class="edu-school">GuardianHouse Public School</div>
+                            <div class="edu-date">2011 – 2025</div>
+                        </div>
+                    </div>
+
+                    <!-- Languages -->
+                    <div class="side-section">
+                        <div class="side-title">Languages</div>
+                        <div><span class="lang-item">English</span><span class="lang-item">Urdu</span></div>
+                    </div>
+
+                </aside>
+
+                <!-- ===== RIGHT PANEL ===== -->
+                <main class="right-panel">
+
+                    <!-- Name & Title -->
+                    <div class="name-title">
+                        <div class="name">Muhammad Abdullah</div>
+                        <div class="title">AI Developer / Frontend Engineer</div>
+                    </div>
+
+                    <!-- Professional Summary (rewritten) -->
+                    <div class="right-section">
+                        <div class="section-header">Professional Summary</div>
+                        <div class="summary">
+                            AI Developer and Frontend Engineer with strong knowledge of Next.js, React, TypeScript,
+                            Python, and FastAPI. Passionate about building AI‑integrated web applications through
+                            personal projects and hackathons. Continuously learning and applying modern development
+                            practices — REST APIs, JWT authentication, and responsive design. Actively seeking
+                            <strong>Internship</strong> or <strong>Junior Developer</strong> opportunities in AI,
+                            Frontend, or Full Stack development.
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="right-section">
+                        <div class="section-header">Experience</div>
+
+                        <!-- Frontend Developer Intern (kept) -->
+                        <div class="exp-item">
+                            <div class="exp-header">
+                                <span class="exp-role">Frontend Developer Intern</span>
+                                <span class="exp-date">3 months | 2024</span>
+                            </div>
+                            <div class="exp-desc">
+                                Built responsive dashboards with Next.js, Tailwind, TypeScript. Integrated REST APIs,
+                                optimized performance (lazy loading, code splitting), and collaborated in agile sprints.
+                            </div>
+                        </div>
+
+                        <!-- Hackathons & Personal Projects (replaces Freelance) -->
+                        <div class="exp-item">
+                            <div class="exp-header">
+                                <span class="exp-role">Hackathons &amp; Personal Projects</span>
+                                <span class="exp-date">2024 – Present</span>
+                            </div>
+                            <div class="exp-desc">
+                                Built multiple AI‑powered and full‑stack web applications through hackathons, university
+                                learning, and personal projects. Developed responsive applications using Next.js, React,
+                                TypeScript, Python, FastAPI, REST APIs, JWT Authentication, and modern development
+                                practices while continuously improving software engineering skills.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Featured Projects (unchanged) -->
+                    <div class="right-section">
+                        <div class="section-header">Featured Projects</div>
+
+                        <div class="project-item">
+                            <div class="project-title">
+                                Todo AI Assistant
+                                <span class="project-links">
+                                    <a href="https://hakaton-ii-phase-v.vercel.app/" target="_blank">Live</a> &bull;
+                                    <a href="https://github.com/Abdullah-Shafaquat/Hakaton-II-Phase-V" target="_blank">GitHub</a>
+                                </span>
+                            </div>
+                            <div class="project-desc">
+                                Full‑stack AI task manager with chatbot assistance, JWT auth, and Neon DB. Reduced task
+                                entry time via conversational AI.
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Next.js</span>
+                                <span class="tech-pill">FastAPI</span>
+                                <span class="tech-pill">Python</span>
+                                <span class="tech-pill">JWT</span>
+                                <span class="tech-pill">Neon DB</span>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-title">
+                                Car Rental Platform
+                                <span class="project-links">
+                                    <a href="https://hacaton-3-nhjy.vercel.app/" target="_blank">Live</a> &bull;
+                                    <a href="https://github.com/Abdullah-Shafaquat/hacaton-3" target="_blank">GitHub</a>
+                                </span>
+                            </div>
+                            <div class="project-desc">
+                                Responsive vehicle booking system with dynamic filtering, availability calendar, and
+                                validation. 90+ Lighthouse score.
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Next.js</span>
+                                <span class="tech-pill">TypeScript</span>
+                                <span class="tech-pill">Tailwind CSS</span>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-title">
+                                E‑Commerce Website
+                                <span class="project-links">
+                                    <a href="https://ecomer-wesite-3.vercel.app/" target="_blank">Live</a> &bull;
+                                    <a href="https://github.com/Abdullah-Shafaquat/ecommerce-website" target="_blank">GitHub</a>
+                                </span>
+                            </div>
+                            <div class="project-desc">
+                                Feature‑rich online store with product catalog, cart, checkout. Dynamic routing &amp;
+                                image optimization for faster loads.
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Next.js</span>
+                                <span class="tech-pill">React</span>
+                                <span class="tech-pill">TypeScript</span>
+                                <span class="tech-pill">Tailwind CSS</span>
+                            </div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-title">
+                                CRUD Operations
+                                <span class="project-links">
+                                    <a href="https://crude-operation-f9s5.vercel.app/" target="_blank">Live</a> &bull;
+                                    <a href="https://github.com/Abdullah-Shafaquat/Crude-operation" target="_blank">GitHub</a>
+                                </span>
+                            </div>
+                            <div class="project-desc">
+                                Full CRUD app demonstrating robust data management, form handling, and API integration.
+                                Clean architecture.
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Next.js</span>
+                                <span class="tech-pill">TypeScript</span>
+                                <span class="tech-pill">Tailwind CSS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Projects (unchanged) -->
+                    <div class="additional-projects">
+                        <div class="additional-title">&#128317; Additional Projects (selected)</div>
+                        <div class="additional-list">
+                            <a href="https://updated-atm.vercel.app/" target="_blank">ATM Simulator</a> &bull;
+                            <a href="https://calculator-neon-five-60.vercel.app/" target="_blank">Calculator</a> &bull;
+                            <a href="https://number-game-bice.vercel.app/" target="_blank">Number Game</a> &bull;
+                            <a href="https://quize-sage.vercel.app/" target="_blank">Quiz App</a> &bull;
+                            <a href="https://todo-list-eta-ecru.vercel.app/" target="_blank">To-Do List</a> &bull;
+                            <a href="https://student-manegment-system.vercel.app/" target="_blank">Student Mgmt</a> &bull;
+                            <a href="https://currency-converter-tawny-zeta.vercel.app/" target="_blank">Currency Conv</a> &bull;
+                            <a href="https://unit-convertor-uur7hruncsoh4ranhhgkgc.streamlit.app/" target="_blank">Unit Converter</a> &bull;
+                            <a href="https://passwordstrengthchecker-skgeehfhxtc2zycthxhzxs.streamlit.app/" target="_blank">Password Checker</a>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                </main>
             </div>
-          </div>
-          <div class="skill-group">
-            <strong>Backend & AI</strong>
-            <div class="skill-badge-list">
-              <span class="skill-badge">Python</span><span class="skill-badge">FastAPI</span><span class="skill-badge">REST APIs</span>
-              <span class="skill-badge">JWT</span><span class="skill-badge">Neon DB</span><span class="skill-badge">AI Chatbots</span>
-              <span class="skill-badge">Prompt Engineering</span>
-            </div>
-          </div>
-          <div class="skill-group">
-            <strong>Tools</strong>
-            <div class="skill-badge-list">
-              <span class="skill-badge">Git/GitHub</span><span class="skill-badge">Vercel</span><span class="skill-badge">VS Code</span>
-              <span class="skill-badge">Streamlit</span>
-            </div>
-          </div>
         </div>
+        <!-- end .resume -->
 
-        <!-- EDUCATION -->
-        <div class="side-section">
-          <div class="side-title">Education</div>
-          <div class="edu-item">
-            <div class="edu-degree">Diploma in Agentic AI</div>
-            <div class="edu-school">GIAIC University</div>
-            <div class="edu-date">2023 – present</div>
-          </div>
-          <div class="edu-item">
-            <div class="edu-degree">Matric (Computer Science)</div>
-            <div class="edu-school">GuardianHouse Public School</div>
-            <div class="edu-date">2011 – 2025</div>
-          </div>
-        </div>
-
-        <!-- LANGUAGES -->
-        <div class="side-section">
-          <div class="side-title">Languages</div>
-          <div><span class="lang-item">English </span><span class="lang-item">Urdu </span></div>
-        </div>
-      </aside>
-
-      <!-- RIGHT COLUMN -->
-      <main class="right-panel">
-        <div class="name-title">
-          <div class="name">Muhammad Abdullah</div>
-          <div class="title">AI Developer / Frontend Engineer</div>
-        </div>
-
-        <!-- SUMMARY -->
-        <div class="right-section">
-          <div class="section-header">Professional Summary</div>
-          <div class="summary">
-            Results-driven developer with expertise in Next.js, React, TypeScript, and Python/FastAPI. 
-            Proven ability to build AI‑integrated web applications (chatbots, task automation) and high‑performance frontends. 
-            Strong foundation in REST APIs, authentication, and responsive design. Actively seeking remote internships / junior roles in AI, Frontend, or Full Stack.
-          </div>
-        </div>
-
-        <!-- EXPERIENCE -->
-        <div class="right-section">
-          <div class="section-header">Experience</div>
-          <div class="exp-item">
-            <div class="exp-header">
-              <span class="exp-role">Frontend Developer Intern</span>
-              <span class="exp-date">3 months | 2024</span>
-            </div>
-            <div class="exp-desc">Built responsive dashboards with Next.js, Tailwind, TypeScript. Integrated REST APIs, optimized performance (lazy loading, code splitting), and collaborated in agile sprints.</div>
-          </div>
-          <div class="exp-item">
-            <div class="exp-header">
-              <span class="exp-role">Freelance Full Stack Developer</span>
-              <span class="exp-date">2023 – present</span>
-            </div>
-            <div class="exp-desc">Delivered 15+ production-grade web apps (e‑commerce, AI tooling, booking platforms). Implemented JWT auth, Neon DB integration, and Vercel deployments. Improved client satisfaction with robust UI/UX.</div>
-          </div>
-        </div>
-
-        <!-- FEATURED PROJECTS (only 4 best) -->
-        <div class="right-section">
-          <div class="section-header">Featured Projects</div>
-          
-          <div class="project-item">
-            <div class="project-title">
-              Todo AI Assistant
-              <span class="project-links">
-                <a href="https://hakaton-ii-phase-v.vercel.app/" target="_blank">Live</a> •
-                <a href="https://github.com/Abdullah-Shafaquat/Hakaton-II-Phase-V" target="_blank">GitHub</a>
-              </span>
-            </div>
-            <div class="project-desc">Full‑stack AI task manager with chatbot assistance, JWT auth, and Neon DB. Reduced task entry time via conversational AI.</div>
-            <div class="project-tech"><span class="tech-pill">Next.js</span><span class="tech-pill">FastAPI</span><span class="tech-pill">Python</span><span class="tech-pill">JWT</span><span class="tech-pill">Neon DB</span></div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-title">
-              Car Rental Platform
-              <span class="project-links"><a href="https://hacaton-3-nhjy.vercel.app/" target="_blank">Live</a> • <a href="https://github.com/Abdullah-Shafaquat/hacaton-3" target="_blank">GitHub</a></span>
-            </div>
-            <div class="project-desc">Responsive vehicle booking system with dynamic filtering, availability calendar, and validation. 90+ Lighthouse score.</div>
-            <div class="project-tech"><span class="tech-pill">Next.js</span><span class="tech-pill">TypeScript</span><span class="tech-pill">Tailwind CSS</span></div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-title">
-              E‑Commerce Website
-              <span class="project-links"><a href="https://ecomer-wesite-3.vercel.app/" target="_blank">Live</a> • <a href="https://github.com/Abdullah-Shafaquat/ecommerce-website" target="_blank">GitHub</a></span>
-            </div>
-            <div class="project-desc">Feature‑rich online store with product catalog, cart, checkout. Dynamic routing & image optimization for faster loads.</div>
-            <div class="project-tech"><span class="tech-pill">Next.js</span><span class="tech-pill">React</span><span class="tech-pill">TypeScript</span><span class="tech-pill">Tailwind CSS</span></div>
-          </div>
-
-          <div class="project-item">
-            <div class="project-title">
-              CRUD Operations
-              <span class="project-links"><a href="https://crude-operation-f9s5.vercel.app/" target="_blank">Live</a> • <a href="https://github.com/Abdullah-Shafaquat/Crude-operation" target="_blank">GitHub</a></span>
-            </div>
-            <div class="project-desc">Full CRUD app demonstrating robust data management, form handling, and API integration. Clean architecture.</div>
-            <div class="project-tech"><span class="tech-pill">Next.js</span><span class="tech-pill">TypeScript</span><span class="tech-pill">Tailwind CSS</span></div>
-          </div>
-        </div>
-
-        <!-- ADDITIONAL PROJECTS (compact) -->
-        <div class="additional-projects">
-          <div class="additional-title">🔹 Additional Projects (selected)</div>
-          <div class="additional-list">
-            <a href="https://updated-atm.vercel.app/" target="_blank">ATM Simulator</a> •
-            <a href="https://calculator-neon-five-60.vercel.app/" target="_blank">Calculator</a> •
-            <a href="https://number-game-bice.vercel.app/" target="_blank">Number Game</a> •
-            <a href="https://quize-sage.vercel.app/" target="_blank">Quiz App</a> •
-            <a href="https://todo-list-eta-ecru.vercel.app/" target="_blank">To-Do List</a> •
-            <a href="https://student-manegment-system.vercel.app/" target="_blank">Student Mgmt</a> •
-            <a href="https://currency-converter-tawny-zeta.vercel.app/" target="_blank">Currency Conv</a> •
-            <a href="https://unit-convertor-uur7hruncsoh4ranhhgkgc.streamlit.app/" target="_blank">Unit Converter</a> •
-            <a href="https://passwordstrengthchecker-skgeehfhxtc2zycthxhzxs.streamlit.app/" target="_blank">Password Checker</a>
-          </div>
-        </div>
-        <hr>
-        <!-- <div style="font-size:0.6rem; text-align:center; color:#5b7e93;">🌍 Open for international remote internships – AI / Frontend / Full Stack</div> -->
-      </main>
     </div>
-  </div>
-</div>
+    <!-- end .resume-wrapper -->
 
-<script>
-  // Simple PDF print – ensures one page
-  const pdfBtn = document.getElementById('pdfDownloadBtn');
-  if (pdfBtn) {
-    pdfBtn.addEventListener('click', () => {
-      window.print();
-    });
-  }
-</script>
+
+    <!-- ===== PDF GENERATION SCRIPT (html2canvas + jsPDF) ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            const pdfBtn = document.getElementById('pdfDownloadBtn');
+            if (!pdfBtn) return;
+
+            // --- helper: wait for fonts / images to settle ---
+            function waitForRender(ms) {
+                return new Promise(function(resolve) {
+                    setTimeout(resolve, ms || 400);
+                });
+            }
+
+            pdfBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating…';
+                btn.disabled = true;
+
+                const resumeEl = document.getElementById('resumeContent');
+                if (!resumeEl) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                // --- ensure we capture everything with high quality ---
+                // Temporarily force all elements to be visible & rendered
+                const wrapper = resumeEl.closest('.resume-wrapper');
+                const pdfContainer = document.querySelector('.pdf-button-container');
+
+                // Use html2canvas with robust settings
+                html2canvas(resumeEl, {
+                    scale: 2.5, // high quality
+                    useCORS: true,
+                    allowTaint: false,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: resumeEl.scrollWidth,
+                    height: resumeEl.scrollHeight,
+                    windowWidth: resumeEl.scrollWidth,
+                    windowHeight: resumeEl.scrollHeight,
+                    onclone: function(clonedDoc) {
+                        // ensure cloned element has proper dimensions
+                        const cloned = clonedDoc.getElementById('resumeContent');
+                        if (cloned) {
+                            cloned.style.transform = 'none';
+                        }
+                    }
+                }).then(function(canvas) {
+                    // --- create PDF with A4 proportions ---
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                    // calculate image dimensions to fit A4 while preserving aspect ratio
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const finalWidth = imgWidth * ratio;
+                    const finalHeight = imgHeight * ratio;
+
+                    // center horizontally, top-align vertically
+                    const xOffset = (pdfWidth - finalWidth) / 2;
+                    const yOffset = 0;
+
+                    pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalWidth, finalHeight);
+
+                    // --- (optional) add clickable link annotations for all <a> tags ---
+                    // Because html2canvas flattens to an image, links are not interactive.
+                    // We add them as text annotations using jsPDF.link() at approximated positions.
+                    // This is a best-effort enhancement; the URLs remain visible as text.
+                    const links = resumeEl.querySelectorAll('a[href]');
+                    const rect = resumeEl.getBoundingClientRect();
+                    const scaleX = finalWidth / canvas.width;
+                    const scaleY = finalHeight / canvas.height;
+
+                    links.forEach(function(link) {
+                        try {
+                            const href = link.getAttribute('href');
+                            if (!href || href.startsWith('javascript:') || href.startsWith('#')) return;
+
+                            const linkRect = link.getBoundingClientRect();
+                            // relative to the resume element
+                            const relLeft = linkRect.left - rect.left;
+                            const relTop = linkRect.top - rect.top;
+                            const relRight = linkRect.right - rect.left;
+                            const relBottom = linkRect.bottom - rect.top;
+
+                            // scale to PDF coordinates
+                            const pdfLeft = xOffset + relLeft * scaleX;
+                            const pdfTop = yOffset + relTop * scaleY;
+                            const pdfRight = xOffset + relRight * scaleX;
+                            const pdfBottom = yOffset + relBottom * scaleY;
+
+                            const w = pdfRight - pdfLeft;
+                            const h = pdfBottom - pdfTop;
+
+                            // only add if within reasonable bounds
+                            if (w > 2 && h > 2 && pdfLeft >= 0 && pdfTop >= 0) {
+                                // jsPDF.link(x, y, w, h, { url: href })
+                                pdf.link(pdfLeft, pdfTop, w, h, { url: href });
+                            }
+                        } catch (_) { /* ignore per-link errors */ }
+                    });
+
+                    // --- save ---
+                    pdf.save('Muhammad_Abdullah_Resume.pdf');
+
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(function(err) {
+                    console.warn('PDF generation error:', err);
+                    // fallback: try window.print() as a courtesy
+                    try {
+                        window.print();
+                    } catch (_) { /* ignore */ }
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            });
+
+        })();
+    </script>
+
 </body>
 </html>
